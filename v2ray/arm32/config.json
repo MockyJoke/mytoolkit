@@ -1,0 +1,41 @@
+{
+  "inbounds": [{
+    "port": 1098,
+    "protocol": "vmess",
+    "settings": {
+      "clients": [
+        {
+          "id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+          "level": 1,
+          "alterId": 64
+        }
+      ]
+    }
+  },
+  {
+    "port": 1088, 
+    "protocol": "shadowsocks",
+    "settings": {
+       "method": "aes-256-cfb",
+       "ota": false,
+       "password": "pwd"
+    }
+  }],
+  "outbounds": [{
+    "protocol": "freedom",
+    "settings": {}
+  },{
+    "protocol": "blackhole",
+    "settings": {},
+    "tag": "blocked"
+  }],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "ip": ["geoip:private"],
+        "outboundTag": "blocked"
+      }
+    ]
+  }
+}
