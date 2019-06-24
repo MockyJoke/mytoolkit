@@ -1,39 +1,65 @@
 {
-  "inbounds": [{
-    "port": 1098,
-    "protocol": "vmess",
-    "settings": {
-      "clients": [
-        {
-          "id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
-          "level": 1,
-          "alterId": 64
+  "inbounds": [
+    {
+      "port": 1092,
+      "listen": "127.0.0.1",
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+            "alterId": 64
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/private_1"
         }
-      ]
+      }
+    },
+    {
+      "port": 1091,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+            "level": 1,
+            "alterId": 64
+          }
+        ]
+      }
+    },
+    {
+      "port": 1088,
+      "protocol": "shadowsocks",
+      "settings": {
+        "method": "aes-256-cfb",
+        "ota": false,
+        "password": "pwd"
+      }
     }
-  },
-  {
-    "port": 1088, 
-    "protocol": "shadowsocks",
-    "settings": {
-       "method": "aes-256-cfb",
-       "ota": false,
-       "password": "pwd"
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
     }
-  }],
-  "outbounds": [{
-    "protocol": "freedom",
-    "settings": {}
-  },{
-    "protocol": "blackhole",
-    "settings": {},
-    "tag": "blocked"
-  }],
+  ],
   "routing": {
     "rules": [
       {
         "type": "field",
-        "ip": ["geoip:private"],
+        "ip": [
+          "geoip:private"
+        ],
         "outboundTag": "blocked"
       }
     ]
