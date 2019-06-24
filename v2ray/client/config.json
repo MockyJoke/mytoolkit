@@ -1,0 +1,88 @@
+{
+  "log": {
+    // By default, V2Ray writes access log to stdout.
+    // "access": "access.log",
+    // By default, V2Ray write error log to stdout.
+    // "error": "error.log",
+    // Log level, one of "debug", "info", "warning", "error", "none"
+    "loglevel": "info"
+  },
+  "inbounds": [
+    {
+      "port": 1234,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      },
+      "settings": {
+        "auth": "noauth",
+        "udp": false
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      // TLS + WS
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "hostname.org",
+            "port": 443,
+            "users": [
+              {
+                "id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+                "alterId": 64,
+                "security": "auto",
+                "level": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "wsSettings": {
+          "headers": {},
+          "path": "/private_1"
+        },
+        "tlsSettings": {
+          "serverName": "hostname.org",
+          "alpn": [
+            "http/1.1"
+          ],
+          "allowInsecure": false,
+          "allowInsecureCiphers": false
+        }
+      },
+      "mux": {
+        "enabled": true,
+        "concurrency": 8
+      }
+    },
+    {
+      // Pure VMESS
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "hostname.org",
+            "port": 1091,
+            "users": [
+              {
+                "id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+                "alterId": 64
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
