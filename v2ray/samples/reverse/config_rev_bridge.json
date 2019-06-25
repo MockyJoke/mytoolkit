@@ -1,0 +1,97 @@
+{
+  // config for rev_bridge
+  // portal: Host with public endpoint, serve as proxy server for all clients
+  // bridge: Host that direct access all the external resources on behalf of the clients, could be a NAT host
+  // Setup: bridge -(connects)-> portal
+  // Usage: client --> portal --> bridge --> outside  
+  "log": {
+    // By default, V2Ray writes access log to stdout.
+    // "access": "access.log",
+    // By default, V2Ray write error log to stdout.
+    // "error": "error.log",
+    // Log level, one of "debug", "info", "warning", "error", "none"
+    "loglevel": "info"
+  },
+  "reverse": {
+    // Reverse proxy setting for bridge
+    "bridges": [
+      {
+        "tag": "bridge",
+        // Target domain for connection: bridge --> portal
+        "domain": "rev_portal.cloud.com"
+      }
+    ]
+  },
+  "outbounds": [
+    {
+      // TLS + WS
+      "tag": "tunnel",
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "hostname.org",
+            "port": 443,
+            "users": [
+              {
+                "id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+                "alterId": 64,
+                "security": "auto",
+                "level": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "wsSettings": {
+          "headers": {},
+          "path": "/private_2"
+        },
+        "tlsSettings": {
+          "serverName": "hostname.org",
+          "alpn": [
+            "http/1.1"
+          ],
+          "allowInsecure": false,
+          "allowInsecureCiphers": false
+        }
+      },
+      "mux": {
+        "enabled": true,
+        "concurrency": 8
+      }
+    },
+    // Traffic to external resources for clients
+    {
+      "tag": "out",
+      "protocol": "freedom",
+      "settings": {}
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        // Connect bridge to portal via tunnel
+        "type": "field",
+        "inboundTag": [
+          "bridge"
+        ],
+        "domain": [
+          "full:rev_portal.cloud.com"
+        ],
+        "outboundTag": "tunnel"
+      },
+      {
+        // Traffic from portal to bridge will use out to external resources
+        "type": "field",
+        "inboundTag": [
+          "bridge"
+        ],
+        "outboundTag": "out"
+      }
+    ]
+  }
+}
