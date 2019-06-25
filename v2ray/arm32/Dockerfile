@@ -6,7 +6,7 @@ ADD https://github.com/v2ray/v2ray-core/releases/download/${VERSION}/v2ray-${ARC
 RUN mkdir /v2ray && cd v2ray && mv ../v2ray.zip . && unzip v2ray.zip
 
 FROM arm32v6/alpine:latest
-
+RUN apk add ca-certificates
 COPY --from=builder v2ray  /usr/bin/v2ray
 ENV PATH /usr/bin/v2ray/:$PATH
 EXPOSE 8000
