@@ -7,4 +7,3 @@ RUN apt-get update && \
     apt-get install -y vim nginx openssl tmux nano certbot net-tools
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
-
