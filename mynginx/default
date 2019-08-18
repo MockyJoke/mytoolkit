@@ -1,0 +1,47 @@
+server{
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    # Replace WEBSITE_FQDN with actual FQDN.
+    server_name WEBSITE_FQDN;
+    return 302 https://$server_name$request_uri;
+}
+server {
+    # SSL configuration
+
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    ssl_certificate /ssl/serverCert.pem;
+    ssl_certificate_key /ssl/serverKey.pem;
+
+    location /private_1 {
+        proxy_pass          http://127.0.0.1:10001;
+        proxy_redirect      off;
+        proxy_http_version  1.1;
+        proxy_set_header    Connection "upgrade";
+        proxy_set_header    Upgrade $http_upgrade;
+        proxy_set_header    Host $host;
+        proxy_set_header    X-Real-IP $remote_addr;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /deluge {
+        proxy_pass          http://127.0.0.1:18888;
+        proxy_redirect      off;
+        proxy_http_version  1.1;
+        proxy_set_header    Connection "upgrade";
+        proxy_set_header    Upgrade $http_upgrade;
+        proxy_set_header    Host $host;
+        proxy_set_header    X-Real-IP $remote_addr;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location / {
+        # Replace url with forwarding url.
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $http_connection;
+        proxy_set_header Host $http_host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
