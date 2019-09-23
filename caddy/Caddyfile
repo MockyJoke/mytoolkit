@@ -1,0 +1,12 @@
+WEBSITE_FQDN {
+    tls YOUR_EMAIL {
+        # Use this for testing
+        ca https://acme-staging-v02.api.letsencrypt.org/directory
+    }
+    log stdout
+    errors stdout
+    proxy / localhost:8080 {
+        websocket
+        header_upstream -Origin
+    }
+}
