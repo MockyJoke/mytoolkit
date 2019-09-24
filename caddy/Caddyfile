@@ -9,4 +9,11 @@ WEBSITE_FQDN {
         websocket
         header_upstream -Origin
     }
+    
+    proxy /deluge localhost:18888/ {
+        websocket
+        header_upstream -Origin
+        header_upstream X-Deluge-Base "/deluge/"
+        without /deluge
+    }
 }
