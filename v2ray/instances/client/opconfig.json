@@ -1,0 +1,15 @@
+{
+    "targets": [
+        {
+            "templateSource": "templates/config.json",
+            "setting": {
+                "local_proxy_port": 12345,
+                "server_address": "hostname.org",
+                "server_port": 443,
+                "user_id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+                "ws_path": "private"
+            },
+            "destination": "env/config.json"
+        }
+    ]
+}

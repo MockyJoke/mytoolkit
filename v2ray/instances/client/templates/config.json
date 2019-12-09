@@ -1,0 +1,70 @@
+{
+    "log": {
+      // By default, V2Ray writes access log to stdout.
+      // "access": "access.log",
+      // By default, V2Ray write error log to stdout.
+      // "error": "error.log",
+      // Log level, one of "debug", "info", "warning", "error", "none"
+      "loglevel": "info"
+    },
+    "inbounds": [
+      {
+        "port": "$local_proxy_port$",
+        "listen": "127.0.0.1",
+        "protocol": "socks",
+        "sniffing": {
+          "enabled": true,
+          "destOverride": [
+            "http",
+            "tls"
+          ]
+        },
+        "settings": {
+          "auth": "noauth",
+          "udp": false
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        // TLS + WS
+        "protocol": "vmess",
+        "settings": {
+          "vnext": [
+            {
+              "address": "$server_address$",
+              "port": "$server_port$",
+              "users": [
+                {
+                  "id": "$user_id$",
+                  "alterId": 64,
+                  "security": "auto",
+                  "level": 0
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "wsSettings": {
+            "headers": {},
+            "path": "$ws_path$"
+          },
+          "tlsSettings": {
+            "serverName": "$server_address$",
+            "alpn": [
+              "http/1.1"
+            ],
+            "allowInsecure": false,
+            "allowInsecureCiphers": false
+          }
+        },
+        "mux": {
+          "enabled": true,
+          "concurrency": 8
+        }
+      }
+    ]
+  }
