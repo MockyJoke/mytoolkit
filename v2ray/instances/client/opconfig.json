@@ -7,7 +7,7 @@
                 "server_address": "hostname.org",
                 "server_port": 443,
                 "user_id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
-                "ws_path": "private"
+                "ws_path": "private_1"
             },
             "destination": "env/config.json"
         }

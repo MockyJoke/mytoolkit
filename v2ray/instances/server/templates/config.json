@@ -1,0 +1,68 @@
+{
+    "inbounds": [
+      {
+        "port": "$server_ws_port$",
+        "listen": "127.0.0.1",
+        "protocol": "vmess",
+        "settings": {
+          "clients": [
+            {
+              "id": "$server_id$",
+              "alterId": 64
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "wsSettings": {
+            "path": "$ws_path$"
+          }
+        }
+      },
+      {
+        "port": "$server_vmess_port$",
+        "protocol": "vmess",
+        "settings": {
+          "clients": [
+            {
+              "id": "$server_id$",
+              "level": 1,
+              "alterId": 64
+            }
+          ]
+        }
+      },
+      {
+        "port": "$server_ss_port$",
+        "protocol": "shadowsocks",
+        "settings": {
+          "method": "aes-256-cfb",
+          "ota": false,
+          "password": "$server_ss_password$"
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        "protocol": "freedom",
+        "settings": {}
+      },
+      {
+        "protocol": "blackhole",
+        "settings": {},
+        "tag": "blocked"
+      }
+    ],
+    "routing": {
+      "rules": [
+        {
+          "type": "field",
+          "ip": [
+            "geoip:private"
+          ],
+          "outboundTag": "blocked"
+        }
+      ]
+    }
+  }
+  

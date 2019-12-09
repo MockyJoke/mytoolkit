@@ -43,7 +43,7 @@ def processTargets(targets):
         
 
 buildJsonSource = sys.argv[1]
-if(buildJsonSource.startswith("http")):
+if(buildJsonSource.startswith("https")):
     buildJsonContent = readUrlAsString(sys.argv[1])
 else:
     buildJsonContent = readFileAsString(sys.argv[1])

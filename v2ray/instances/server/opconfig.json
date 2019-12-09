@@ -1,0 +1,16 @@
+{
+    "targets": [
+        {
+            "templateSource": "templates/config.json",
+            "setting": {
+                "server_ws_port": 12345,
+                "server_id": "98eaefbd-ee70-449e-8c87-ed511ae808a9",
+                "ws_path": "private_1",
+                "server_vmess_port": 12346,
+                "server_ss_port": 12347,
+                "server_ss_password": "pwdd"
+            },
+            "destination": "env/config.json"
+        }
+    ]
+}
