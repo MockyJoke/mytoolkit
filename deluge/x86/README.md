@@ -1,0 +1,1 @@
+docker run -d --network=host -v $(pwd)/data:/data --name=deluge_c deluge -p 18888
