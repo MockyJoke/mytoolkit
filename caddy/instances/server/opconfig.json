@@ -1,0 +1,15 @@
+{
+    "targets": [
+        {
+            "templateSource": "templates/Caddyfile",
+            "setting": {
+                "website_fqdn": "Website_Fqdn",
+                "your_email": "Your_Email",
+                "default_endpoint": "Default_Endpoint",
+                "api_1_path": "Api_1_Path",
+                "api_1_endpoint": "Api_1_Endpoint"
+            },
+            "destination": "env/Caddyfile"
+        }
+    ]
+}

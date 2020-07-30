@@ -26,10 +26,9 @@ def generateTargetContent(target):
     for key,value in target["setting"].items():
         if(type(value) == str):
             print(f'Applying setting {key}:"{value}".')
-            result = result.replace(f'"${key}$"', f'"{value}"')
         else:
             print(f'Applying setting {key}:{value}.')
-            result = result.replace(f'"${key}$"', f'{value}')
+        result = result.replace(f'${key}$', f'{value}')
     return result
 
 def processTargets(targets):

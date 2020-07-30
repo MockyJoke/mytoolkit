@@ -1,7 +1,7 @@
 {
     "inbounds": [
       {
-        "port": "$server_ws_port$",
+        "port": $server_ws_port$,
         "listen": "127.0.0.1",
         "protocol": "vmess",
         "settings": {
@@ -33,7 +33,7 @@
         }
       },
       {
-        "port": "$server_ss_port$",
+        "port": $server_ss_port$,
         "protocol": "shadowsocks",
         "settings": {
           "method": "aes-256-cfb",
