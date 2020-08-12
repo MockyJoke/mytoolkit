@@ -9,6 +9,9 @@ config: build create_env download_opconfig parse_opconfig
 build:
 	echo "No-op for build"
 
+stop:
+	docker rm -f caddy_c
+
 # helpers
 parse_opconfig:
 	python3 ../../../init_instance_env.py env/opconfig.json
