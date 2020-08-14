@@ -1,0 +1,29 @@
+$website_fqdn$ {
+    tls $your_email$ {
+        # Use this for testing
+        # ca https://acme-staging-v02.api.letsencrypt.org/directory
+    }
+    log stdout
+    errors stdout
+    proxy / $default_endpoint$ {
+        websocket
+        header_upstream -Origin
+    }
+
+    proxy /$api_1_path$ $api_1_endpoint$ {
+        websocket
+        header_upstream -Origin
+    }
+
+    proxy /$api_2_path$ $api_2_endpoint$ {
+        websocket
+        header_upstream -Origin
+    }
+    
+    proxy /deluge localhost:18888/ {
+        websocket
+        header_upstream -Origin
+        header_upstream X-Deluge-Base "/deluge/"
+        without /deluge
+    }
+}
