@@ -1,0 +1,15 @@
+{
+    "targets": [
+        {
+            "templateSource": "templates/config.json",
+            "setting": {
+                "forward_server_ws_port": 123456,
+                "forward_ws_path": "path1",
+                "reverse_server_ws_port": 123457,
+                "reverse_ws_path": "path2",
+                "server_id": "98eaefbd-ee70-449e-8c87-ed511ae808a9"
+            },
+            "destination": "env/config.json"
+        }
+    ]
+}

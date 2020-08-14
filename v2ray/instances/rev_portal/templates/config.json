@@ -1,0 +1,102 @@
+{
+  // config for rev_portal
+  // portal: Host with public endpoint, serve as proxy server for all clients
+  // bridge: Host that direct access all the external resources on behalf of the clients, could be a NAT host
+  // Setup: bridge -(connects)-> portal
+  // Usage: client --> portal --> bridge --> outside  
+  "reverse": {
+    // Reverse proxy setting for portal
+    "portals": [
+      {
+        "tag": "portal",
+        // Target domain for connection: bridge --> portal
+        "domain": "rev_portal.cloud.com"
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      // Traffic using this host as proxy server
+      "port": $forward_server_ws_port$,
+      "listen": "127.0.0.1",
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "$server_id$",
+            "alterId": 64
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "$forward_ws_path$"
+        }
+      }
+    },
+    {
+      // Traffic using reverse proxy client --> portal --> bridge 
+      "tag": "tunnel",
+      "port": $reverse_server_ws_port$,
+      "listen": "127.0.0.1",
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "$server_id$",
+            "alterId": 64
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "$reverse_ws_path$"
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "blocked"
+      },
+      {
+        // Forward inbound client traffic to portal
+        "type": "field",
+        "inboundTag": [
+          "tunnel"
+        ],
+        "outboundTag": "portal"
+      },
+      {
+        // Identify traffic from beidge
+        "type": "field",
+        "inboundTag": [
+          "tunnel"
+        ],
+        "domain": [
+          // Target domain for connection: bridge --> portal
+          "full:rev_portal.cloud.com"
+        ],
+        "outboundTag": "portal"
+      }
+    ]
+  }
+}
