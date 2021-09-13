@@ -2,7 +2,7 @@ WORK_DIR=$(PWD)/env
 
 run:
 	cd $(WORK_DIR) && \
-	docker run -d --network host -v $(WORK_DIR)/Caddyfile:/etc/Caddyfile -v $(WORK_DIR)/secrets:/root/.caddy -e ACME_AGREE=true --restart=always --name=caddy_c abiosoft/caddy
+	docker run -d --network host -v $(WORK_DIR)/Caddyfile:/etc/caddy/Caddyfile -v $(WORK_DIR)/data:/data -e ACME_AGREE=true --restart=always --name=caddy_c caddy
 
 config: build create_env download_opconfig parse_opconfig
 
